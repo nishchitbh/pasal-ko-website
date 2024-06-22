@@ -1,12 +1,8 @@
 from fastapi import FastAPI
 from psycopg2.extras import RealDictCursor
-from .database import engine
 import psycopg2
-from . import models
 from .routers import products, users, auth, vote
 
-# Creates all the tables defined by the models
-models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
