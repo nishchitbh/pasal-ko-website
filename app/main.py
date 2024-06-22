@@ -2,12 +2,25 @@ from fastapi import FastAPI
 from psycopg2.extras import RealDictCursor
 import psycopg2
 from .routers import products, users, auth, vote
+from fastapi.middleware.cors import CORSMiddleware
 
 
 app = FastAPI()
 
 
-# Connect to the database 
+origins = ["localhost:5000"]
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+# Connect to the database
 try:
     conn = psycopg2.connect(
         host="localhost",

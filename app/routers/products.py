@@ -7,6 +7,7 @@ from ..database import get_db
 from .. import schemas
 from .. import oauth2
 
+
 router = APIRouter(prefix="/products", tags=["Products"])
 
 
@@ -57,7 +58,8 @@ def get_product(id: int, db: Session = Depends(get_db)):
         db.query(models.Product, func.count(models.Votes.product_id).label("votes"))
         .join(models.Votes, models.Votes.product_id == models.Product.id, isouter=True)
         .group_by(models.Product.id)
-        .filter(models.Product.id == id).first()
+        .filter(models.Product.id == id)
+        .first()
     )
     if not product:
         raise HTTPException(
