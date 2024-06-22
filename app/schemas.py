@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime
 
@@ -10,12 +10,12 @@ class ProductBase(BaseModel):
 
 
 class UserCreate(BaseModel):
-    email: EmailStr
+    username: str
     password: str
 
 
 class UserEdit(UserCreate):
-    email: EmailStr
+    username: str
     password: str
     approved: bool
     admin: bool
@@ -28,14 +28,14 @@ class UserPatch(BaseModel):
 
 class UserOut(BaseModel):
     id: int
-    email: EmailStr
+    username: str
 
     class Config:
         from_attributes = True
 
 
 class UserLogin(BaseModel):
-    email: EmailStr
+    username: str
     password: str
 
 

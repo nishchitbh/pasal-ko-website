@@ -15,7 +15,7 @@ def login(
     print(user_credentials)
     user = (
         db.query(models.User)
-        .filter(models.User.email == user_credentials.username)
+        .filter(models.User.username == user_credentials.username)
         .first()
     )
     if not user:
