@@ -2,4 +2,4 @@ try.py
 __pycache__/
 backend/
 venv/
-app/.env
+.env
