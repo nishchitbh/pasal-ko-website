@@ -74,3 +74,7 @@ class ProductOut(BaseModel):
     votes: int
     class Config:
         from_attributes = True
+
+class AdminCreate(UserCreate):
+    admin:Optional[bool] = True
+    approved:Optional[bool] = True

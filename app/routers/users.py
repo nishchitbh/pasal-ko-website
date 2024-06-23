@@ -11,6 +11,9 @@ router = APIRouter(prefix="/users", tags=["Users"])
 
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=schemas.UserOut)
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
+    userexists = db.query(models.User).filter(models.User.username==user.username).first()
+    if userexists:
+        raise HTTPException(status.HTTP_403_FORBIDDEN, detail=f"User with username {user.username} already exists!")
     user.password = utils.hash(user.password)
     new_user = models.User(**user.dict())
     db.add(new_user)
@@ -53,19 +56,20 @@ def update_user(
     user_query = db.query(models.User).filter(models.User.id == id)
     user = user_query.first()
 
-    if user is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"product with id: {id} does not exist",
-        )
     if not current_user.admin:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Not authorized to perform requested action",
         )
+    if user is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"product with id: {id} does not exist",
+        )
     user_query.update(updated_user.dict(), synchronize_session=False)
     db.commit()
     return user_query.first()
+
 
 @router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_user(
@@ -86,3 +90,16 @@ def delete_user(
         )
     user_query.delete(synchronize_session=False)
     db.commit()
+
+
+@router.post("/admin", status_code=status.HTTP_201_CREATED)
+def create_admin(user: schemas.AdminCreate, db: Session = Depends(get_db)):
+    userexists = db.query(models.User).filter(models.User.username==user.username).first()
+    if userexists:
+        raise HTTPException(status.HTTP_403_FORBIDDEN, detail=f"User with username {user.username} already exists!")
+    user.password = utils.hash(user.password)
+    new_user = models.User(**user.dict())
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+    return new_user
