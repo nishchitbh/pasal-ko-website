@@ -75,7 +75,12 @@ def update_user(
 def delete_user(
     id: int,
     db: Session = Depends(get_db),
+    current_user=Depends(oauth2.get_current_user),
 ):
+    if not current_user.admin:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN, detail="You're not authorized yet!"
+        )
     user_query = db.query(models.User).filter(models.User.id == id)
     user = user_query.first()
     if not user:

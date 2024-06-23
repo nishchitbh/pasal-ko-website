@@ -12,7 +12,7 @@ class Settings:
     database_private_url: str = os.getenv("DATABASE_PRIVATE_URL")
     secret_key: str = os.getenv("SECRET_KEY")
     algorithm: str = os.getenv("ALGORITHM")
-    access_token_expire_minutes: int = 30
+    access_token_expire_minutes: int = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
 
 
 settings = Settings()
