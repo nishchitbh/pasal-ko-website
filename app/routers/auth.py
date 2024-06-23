@@ -12,7 +12,6 @@ def login(
     user_credentials: OAuth2PasswordRequestForm = Depends(),
     db: Session = Depends(database.get_db),
 ):
-    print(user_credentials)
     user = (
         db.query(models.User)
         .filter(models.User.username == user_credentials.username)
