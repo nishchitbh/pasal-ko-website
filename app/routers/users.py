@@ -92,7 +92,7 @@ def delete_user(
     db.commit()
 
 
-@router.post("/admin", status_code=status.HTTP_201_CREATED)
+@router.post("/admin", status_code=status.HTTP_201_CREATED, response_model=schemas.UserOut)
 def create_admin(user: schemas.AdminCreate, db: Session = Depends(get_db)):
     userexists = db.query(models.User).filter(models.User.username==user.username).first()
     if userexists:
