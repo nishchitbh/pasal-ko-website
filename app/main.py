@@ -18,22 +18,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
-# Connect to the database
-try:
-    conn = psycopg2.connect(
-        host="localhost",
-        database="fastapi",
-        user="postgres",
-        password="hello",
-        cursor_factory=RealDictCursor,
-    )
-    cursor = conn.cursor()
-    print("Database connection was successful")
-except Exception as err:
-    print(f"Connection to the database failed.\nError: {err}")
-
 # Includes the routers for products, users and authentication.
 app.include_router(products.router)
 app.include_router(users.router)
