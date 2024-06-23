@@ -91,15 +91,3 @@ def delete_user(
     user_query.delete(synchronize_session=False)
     db.commit()
 
-
-@router.post("/admin", status_code=status.HTTP_201_CREATED, response_model=schemas.UserOut)
-def create_admin(user: schemas.AdminCreate, db: Session = Depends(get_db)):
-    userexists = db.query(models.User).filter(models.User.username==user.username).first()
-    if userexists:
-        raise HTTPException(status.HTTP_403_FORBIDDEN, detail=f"User with username {user.username} already exists!")
-    user.password = utils.hash(user.password)
-    new_user = models.User(**user.dict())
-    db.add(new_user)
-    db.commit()
-    db.refresh(new_user)
-    return new_user
