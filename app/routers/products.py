@@ -14,7 +14,7 @@ router = APIRouter(prefix="/products", tags=["Products"])
 @router.get("/", response_model=List[schemas.ProductOut])
 def get_products(
     db: Session = Depends(get_db),
-    limit: int = 10,
+    limit: int = 20,
     skip: int = 0,
     search: Optional[str] = "",
 ):
