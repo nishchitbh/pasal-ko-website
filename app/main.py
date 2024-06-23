@@ -1,6 +1,4 @@
 from fastapi import FastAPI
-from psycopg2.extras import RealDictCursor
-import psycopg2
 from .routers import products, users, auth, vote
 from fastapi.middleware.cors import CORSMiddleware
 
