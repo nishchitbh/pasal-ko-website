@@ -15,7 +15,7 @@ COPY . .
 ENV PORT 8000
 
 # Expose the port the app runs on
-EXPOSE ${http_proxy}PORT
+EXPOSE $PORT
 
 # Command to run the FastAPI app with uvicorn
 CMD uvicorn app.main:app --host 0.0.0.0 --port $PORT
