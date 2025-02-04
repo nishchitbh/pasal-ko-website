@@ -3,3 +3,5 @@ __pycache__/
 backend/
 venv/
 .env
+/clean_code_notes
+/clean_code_with_vertical_slicing_notes
